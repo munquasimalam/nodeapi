@@ -1,0 +1,24 @@
+{
+  "name": "nodeapi",
+  "version": "1.0.0",
+  "description": "node js API",
+  "main": "app.js",
+  "scripts": {
+    "dev": "nodemon app.js"
+  },
+  "keywords": [
+    "node",
+    "api"
+  ],
+  "author": "alam",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^8.1.0",
+    "express": "^4.17.1",
+    "express-validator": "^6.1.1",
+    "mongodb": "^3.3.1",
+    "mongoose": "^5.6.10",
+    "morgan": "^1.9.1",
+    "nodemon": "^1.19.1"
+  }
+}
