@@ -1,32 +1,33 @@
 const express = require('express');
-const postRoute = require('./routes/post');
+const postRoutes = require('./routes/post');
+const authRoutes = require('./routes/auth');
 const server = express();
+
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const bodyParser = require('body-parser');
-//const expressValidator = require('express-validator');
+const cookieParser = require('cookie-parser');
+const expressValidator = require('express-validator');
+
 dotenv.config();
 
-const mongoUrl = require('./config/config').mongoUrl;
+const config = require('./config/config');
 
 //db
-mongoose.connect(mongoUrl, {useCreateIndex: true,useNewUrlParser: true }, err => {
+mongoose.connect(config.mongoUrl, {useCreateIndex: true,useNewUrlParser: true }, err => {
     if (err) {
       console.log("mongo connection lost: " + err)
        // log.error("mongo connection lost: " + err);
         return
     }
 
-    console.log("mongo connection done. ")
+    console.log("connected with DB :"+config.database);
    // log.info("mongo connection done.");
     
     const db = mongoose.connection;
     return db;
 });
-
-
-
 
 // const myOwnMiddleWare = (req,res,next)=>{
 //     console.log("middleware");
@@ -38,11 +39,12 @@ mongoose.connect(mongoUrl, {useCreateIndex: true,useNewUrlParser: true }, err =>
 server.use(morgan("dev"));
 server.use(bodyParser.json());
 //server.use(expressValidator());
+server.use(cookieParser());
 
 
 //server.use(myOwnMiddleWare);
-server.use("/",postRoute);
-//server.use("post",postRoute);
+server.use("/",postRoutes);
+server.use("/",authRoutes);
 
 const port = process.env.PORT || 9090
 server.listen(port,()=>{

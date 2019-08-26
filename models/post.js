@@ -13,4 +13,4 @@ const postSchema = new mongoose.Schema({
         max:2000 
     }
 });
-module.exports = mongoose.model("post",postSchema);
+module.exports = mongoose.model("Post",postSchema);

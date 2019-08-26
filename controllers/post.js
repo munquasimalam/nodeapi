@@ -25,9 +25,12 @@ exports.createPost = (req,res) => {
         post:result
     });
    })
-// Post.save().then(result=>{
+
+
+// post.save().then(result=>{
 //     res.status(200).json({
 //        post:result 
 //     });
 // });
+
 }

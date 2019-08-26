@@ -13,7 +13,8 @@ module.exports = {
     },
 
    // mongoUrl: process.env.MONGOURL || "mongodb://medas:medteam2013@ds119606.mlab.com:19606/medas-crm",
-    mongoUrl: "mongodb://localhost:27017/crm",
+    mongoUrl: "mongodb://localhost:27017/nodeapi",
+    database:"nodeapi",
     
     mail: {
         name: "mailAPI",
