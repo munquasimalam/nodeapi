@@ -1,6 +1,10 @@
 const User = require('../models/user');
 const jwt = require('jsonwebtoken');
+const expressJwt = require('express-jwt');
+const dotenv = require('dotenv');
+dotenv.config();
 //require('.dotenv').config();
+
 
 exports.signup = async (req,res)=>{
     const userExist = await User.findOne({email:req.body.email})
@@ -28,6 +32,7 @@ exports.signin = (req,res)=>{
                error:"Email and password not match"
            })
        }
+    console.log(process.env.JWT_SECRET)
        // generate token with user id and secret
        const token = jwt.sign({_id:user._id},process.env.JWT_SECRET)
      res.cookie("t",token,{expire:new Date()+999})
@@ -41,3 +46,9 @@ exports.signout = (req,res)=>{
     res.clearCookie("t")
     return res.json({message:"Signout success"})
 }
+exports.requireSignin = expressJwt({
+    secret:process.env.JWT_SECRET,
+    // if the token is valid,express jwt append the verified user id
+    // in auth key to req object
+    userProperty:"auth"
+});

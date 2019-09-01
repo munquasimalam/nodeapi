@@ -1,6 +1,9 @@
 const express = require('express');
+//const corsMiddleware = require('restify-cors-middleware')
+var corsexpress = require('cors');
 const postRoutes = require('./routes/post');
 const authRoutes = require('./routes/auth');
+const userRoutes = require('./routes/user');
 const server = express();
 
 const morgan = require('morgan');
@@ -40,11 +43,26 @@ server.use(morgan("dev"));
 server.use(bodyParser.json());
 //server.use(expressValidator());
 server.use(cookieParser());
+const cors = corsexpress({
+  preflightMaxAge: 5, //Optional
+  origins: ['*'],
+  allowHeaders: ['Access-Control-Allow-Headers','access-control-allow-origin','Content-Type']
+});
+//server.pre(cors.preflight);
+server.use(cors);
+
+
 
 
 //server.use(myOwnMiddleWare);
 server.use("/",postRoutes);
 server.use("/",authRoutes);
+server.use("/",userRoutes);
+server.use(function (err, req, res, next) {
+    if (err.name === 'UnauthorizedError') {
+      res.status(401).json({error:"Unauthorized!"});
+    }
+  });
 
 const port = process.env.PORT || 9090
 server.listen(port,()=>{
